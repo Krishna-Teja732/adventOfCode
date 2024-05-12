@@ -17,4 +17,8 @@ public class ReadFileHelper {
 	public List<String> getAllLines() {
 		return reader.lines().toList();
 	}
+
+	public List<char[]> getAllLinesAsCharArray() {
+		return reader.lines().map(line -> line.toCharArray()).toList();
+	}
 }
