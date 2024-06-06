@@ -1,6 +1,7 @@
 package Solutions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,15 +71,16 @@ class Day7 {
 		}
 
 		private void assignCardType() {
-			int largestCount = 1;
-			int secondLargestCount = 1;
+			int largestCount = 0;
+			int secondLargestCount = -1;
 
 			int[] cardCounts = new int[15];
 			for (int card : cardSet) {
 				cardCounts[card]++;
 			}
 
-			for (int count : cardCounts) {
+			for (int index = 2; index < 15; index++) {
+				int count = cardCounts[index];
 				if (count > largestCount) {
 					secondLargestCount = largestCount;
 					largestCount = count;
@@ -86,6 +88,8 @@ class Day7 {
 					secondLargestCount = count;
 				}
 			}
+
+			largestCount = largestCount + cardCounts[1];
 
 			switch (largestCount) {
 				case 5 -> this.cardSetType = CardSetType.FiveOfAKind;
@@ -104,7 +108,7 @@ class Day7 {
 			}
 
 			cardToValueMap.put('T', 10);
-			cardToValueMap.put('J', 11);
+			cardToValueMap.put('J', 1);
 			cardToValueMap.put('Q', 12);
 			cardToValueMap.put('K', 13);
 			cardToValueMap.put('A', 14);
