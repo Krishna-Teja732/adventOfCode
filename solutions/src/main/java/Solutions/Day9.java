@@ -48,16 +48,18 @@ class Day9 {
 	private Double findNextTerm(List<Double> sequence) {
 		Double diff = isArithemeticProgression(sequence);
 		if (!diff.isNaN()) {
-			return sequence.getLast() + diff.intValue();
+			return sequence.getFirst() - diff.intValue();
 		}
+
+		Double firstTerm = sequence.getFirst();
 
 		for (int index = 1; index < sequence.size(); index++) {
 			sequence.set(index - 1, sequence.get(index) - sequence.get(index - 1));
 		}
 
-		Double lastTerm = sequence.removeLast();
+		sequence.removeLast();
 
-		return lastTerm + findNextTerm(sequence);
+		return firstTerm - findNextTerm(sequence);
 	}
 
 }
