@@ -9,12 +9,12 @@ import Solutions.utils.Coordinate;
 class Day11 {
 
 	List<Coordinate> galaxiesCoordinates;
-	List<Integer> rowCorrection;
-	List<Integer> colCorrection;
+	List<Double> rowCorrection;
+	List<Double> colCorrection;
 
 	public Day11(List<String> inputs) {
-		rowCorrection = new ArrayList<>(Arrays.asList(0));
-		colCorrection = new ArrayList<>(Arrays.asList(0));
+		rowCorrection = new ArrayList<>(Arrays.asList(0.0));
+		colCorrection = new ArrayList<>(Arrays.asList(0.0));
 		this.galaxiesCoordinates = new ArrayList<>();
 		formatInput(inputs);
 	}
@@ -36,7 +36,7 @@ class Day11 {
 
 		for (boolean hasGalaxy : rowHasGalaxy) {
 			if (!hasGalaxy) {
-				rowCorrection.add(rowCorrection.getLast() + 1);
+				rowCorrection.add(rowCorrection.getLast() + 999999);
 			} else {
 				rowCorrection.add(rowCorrection.getLast());
 			}
@@ -44,7 +44,7 @@ class Day11 {
 
 		for (boolean hasGalaxy : colHasGalaxy) {
 			if (!hasGalaxy) {
-				colCorrection.add(colCorrection.getLast() + 1);
+				colCorrection.add(colCorrection.getLast() + 999999);
 			} else {
 				colCorrection.add(colCorrection.getLast());
 			}
@@ -63,7 +63,7 @@ class Day11 {
 		return result;
 	}
 
-	private int distanceCorrection(Coordinate c1, Coordinate c2) {
+	private Double distanceCorrection(Coordinate c1, Coordinate c2) {
 		int minX = Math.min(c1.x, c2.x) + 1;
 		int minY = Math.min(c1.y, c2.y) + 1;
 
