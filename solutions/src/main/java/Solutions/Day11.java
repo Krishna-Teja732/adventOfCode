@@ -34,19 +34,16 @@ class Day11 {
 			}
 		}
 
-		for (boolean hasGalaxy : rowHasGalaxy) {
-			if (!hasGalaxy) {
-				rowCorrection.add(rowCorrection.getLast() + 999999);
-			} else {
-				rowCorrection.add(rowCorrection.getLast());
-			}
-		}
+		initCorrections(rowHasGalaxy, rowCorrection);
+		initCorrections(colHasGalaxy, colCorrection);
+	}
 
-		for (boolean hasGalaxy : colHasGalaxy) {
+	private void initCorrections(boolean[] hasGalaxies, List<Double> correction) {
+		for (boolean hasGalaxy : hasGalaxies) {
 			if (!hasGalaxy) {
-				colCorrection.add(colCorrection.getLast() + 999999);
+				correction.add(correction.getLast() + 999999);
 			} else {
-				colCorrection.add(colCorrection.getLast());
+				correction.add(correction.getLast());
 			}
 		}
 	}
