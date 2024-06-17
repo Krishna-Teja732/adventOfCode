@@ -8,7 +8,7 @@ import java.util.List;
 
 class Main {
 	public static void main(String[] args) throws IOException {
-		List<String> inputs = new ReadFileHelper("inputs/day11.txt").getAllLines();
-		System.out.println(new BigDecimal(new Day11(inputs).getSumOfDistances()).toPlainString());
+		List<String> inputs = new ReadFileHelper("inputs/day16.txt").getAllLines();
+		System.out.println(new BigDecimal(new Day16(inputs).getResult()).toPlainString());
 	}
 }

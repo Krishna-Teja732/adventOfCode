@@ -1,5 +1,7 @@
 package Solutions.utils;
 
+import java.util.Objects;
+
 /**
  * Coordinate
  */
@@ -21,10 +23,6 @@ public class Coordinate {
 		return Math.abs(this.x - c.x) + Math.abs(this.y - c.y);
 	}
 
-	public boolean isEqual(Coordinate c) {
-		return this.x == c.x && this.y == c.y;
-	}
-
 	public Coordinate add(Coordinate c) {
 		return new Coordinate(this.x + c.x, this.y + c.y);
 	}
@@ -35,5 +33,18 @@ public class Coordinate {
 
 	public String toString() {
 		return this.x + " " + this.y;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Coordinate) {
+			return this.x == ((Coordinate) obj).x && this.y == ((Coordinate) obj).y;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, y);
 	}
 }

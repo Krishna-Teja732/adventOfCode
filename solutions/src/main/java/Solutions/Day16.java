@@ -1,30 +1,34 @@
 package Solutions;
 
 import java.util.List;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Arrays;
 
 import Solutions.utils.Coordinate;
 import Solutions.utils.Pair;
 
 public class Day16 {
 
-	public char[][] grid;
-	public char[][] visited;
+	private char[][] grid;
+	private char[][] visited;
 	private final int MAX_X;
 	private final int MAX_Y;
+	private HashSet<Pair<Coordinate, Direction>> beams;
 
-	public Day16(List<char[]> inputs) {
+	public Day16(List<String> inputs) {
 		MAX_X = inputs.size();
-		MAX_Y = inputs.getFirst().length;
+		MAX_Y = inputs.getFirst().length();
 		grid = new char[MAX_X][MAX_Y];
 		visited = new char[MAX_X][MAX_Y];
+		beams = new HashSet<>();
 		for (int r = 0; r < grid.length; r++) {
-			System.arraycopy(inputs.get(r), 0, grid[r], 0, grid[r].length);
+			System.arraycopy(inputs.get(r).toCharArray(), 0, grid[r], 0, grid[r].length);
 		}
 	}
 
 	public double getResult() {
-		dfs(new Coordinate(0, 0), new int[] { 0, 1 });
+		dfs(new Coordinate(0, 0), Direction.EAST);
 		double result = 0;
 		for (char[] row : visited) {
 			for (char ch : row) {
@@ -36,48 +40,52 @@ public class Day16 {
 		return result;
 	}
 
-	private void dfs(Coordinate c, int[] direction) {
-		if (visited[c.x][c.y] == '#' && getValue(c) == '.') {
-			return;
-		}
+	private void dfs(Coordinate c, Direction d) {
 		setVisited(c);
-		for (Pair<Coordinate, int[]> neighbor : getNeighbors(c, direction)) {
+		for (Pair<Coordinate, Direction> neighbor : getNeighbors(c, d)) {
 			if (!isValidCoordinate(neighbor.key)) {
-				continue;
+				return;
+			}
+			if (getValue(c) == '-' || getValue(c) == '|') {
+				Pair<Coordinate, Direction> beam = new Pair<>(c, neighbor.value);
+				if (beams.contains(beam)) {
+					continue;
+				}
+				beams.add(beam);
 			}
 			dfs(neighbor.key, neighbor.value);
 		}
 	}
 
-	private List<Pair<Coordinate, int[]>> getNeighbors(Coordinate c, int[] direction) {
-		List<Pair<Coordinate, int[]>> result = new LinkedList<>();
+	private List<Pair<Coordinate, Direction>> getNeighbors(Coordinate c, Direction d) {
+		List<Pair<Coordinate, Direction>> result = new LinkedList<>();
 
 		switch (getValue(c)) {
 			case '.' -> {
-				result.add(new Pair<>(c.add(direction[0], direction[1]), direction));
+				result.add(new Pair<>(c.add(d.vector[0], d.vector[1]), d));
 			}
 			case '/' -> {
-				reflect(direction, -1);
-				result.add(new Pair<>(c.add(direction[0], direction[1]), direction));
+				d = reflect(d.vector, -1);
+				result.add(new Pair<>(c.add(d.vector[0], d.vector[1]), d));
 			}
 			case '\\' -> {
-				reflect(direction, 1);
-				result.add(new Pair<>(c.add(direction[0], direction[1]), direction));
+				d = reflect(d.vector, 1);
+				result.add(new Pair<>(c.add(d.vector[0], d.vector[1]), d));
 			}
 			case '|' -> {
-				if (direction[1] != 0) {
-					result.add(new Pair<>(c.add(1, 0), new int[] { 1, 0 }));
-					result.add(new Pair<>(c.add(-1, 0), new int[] { -1, 0 }));
+				if (d.vector[1] != 0) {
+					result.add(new Pair<>(c.add(1, 0), Direction.SOUTH));
+					result.add(new Pair<>(c.add(-1, 0), Direction.NORTH));
 				} else {
-					result.add(new Pair<>(c.add(direction[0], direction[1]), direction));
+					result.add(new Pair<>(c.add(d.vector[0], d.vector[1]), d));
 				}
 			}
 			case '-' -> {
-				if (direction[0] != 0) {
-					result.add(new Pair<>(c.add(0, 1), new int[] { 0, 1 }));
-					result.add(new Pair<>(c.add(0, -1), new int[] { 0, -1 }));
+				if (d.vector[0] != 0) {
+					result.add(new Pair<>(c.add(0, 1), Direction.EAST));
+					result.add(new Pair<>(c.add(0, -1), Direction.WEST));
 				} else {
-					result.add(new Pair<>(c.add(direction[0], direction[1]), direction));
+					result.add(new Pair<>(c.add(d.vector[0], d.vector[1]), d));
 				}
 			}
 		}
@@ -99,10 +107,40 @@ public class Day16 {
 		visited[c.x][c.y] = '#';
 	}
 
-	private void reflect(int[] direction, int magnitude) {
-		int temp = direction[0];
-		direction[0] = direction[1] * magnitude;
-		direction[1] = temp * magnitude;
+	private Direction reflect(int[] directionVector, int magnitude) {
+		int[] newDirectionVector = new int[2];
+		newDirectionVector[0] = directionVector[1] * magnitude;
+		newDirectionVector[1] = directionVector[0] * magnitude;
+		return Direction.getDirectionFromVector(newDirectionVector);
+	}
+
+	public enum Direction {
+		NORTH(new int[] { -1, 0 }),
+		EAST(new int[] { 0, 1 }),
+		SOUTH(new int[] { 1, 0 }),
+		WEST(new int[] { 0, -1 });
+
+		public final int[] vector;
+
+		private Direction(int[] vector) {
+			this.vector = vector;
+		}
+
+		public static Direction getDirectionFromVector(int[] vector) {
+			if (vector[0] == 0) {
+				if (vector[1] > 0) {
+					return EAST;
+				}
+				return WEST;
+			}
+			if (vector[1] == 0) {
+				if (vector[0] > 0) {
+					return SOUTH;
+				}
+				return NORTH;
+			}
+			return null;
+		}
 	}
 
 }
