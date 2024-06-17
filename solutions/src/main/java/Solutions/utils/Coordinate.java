@@ -12,7 +12,28 @@ public class Coordinate {
 		this.y = y;
 	}
 
-	public int getManhattanDistance(Coordinate coord) {
-		return Math.abs(this.x - coord.x) + Math.abs(this.y - coord.y);
+	public Coordinate(Coordinate c) {
+		this.x = c.x;
+		this.y = c.y;
+	}
+
+	public int getManhattanDistance(Coordinate c) {
+		return Math.abs(this.x - c.x) + Math.abs(this.y - c.y);
+	}
+
+	public boolean isEqual(Coordinate c) {
+		return this.x == c.x && this.y == c.y;
+	}
+
+	public Coordinate add(Coordinate c) {
+		return new Coordinate(this.x + c.x, this.y + c.y);
+	}
+
+	public Coordinate add(int x, int y) {
+		return new Coordinate(this.x + x, this.y + y);
+	}
+
+	public String toString() {
+		return this.x + " " + this.y;
 	}
 }

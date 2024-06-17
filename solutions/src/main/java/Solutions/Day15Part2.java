@@ -46,35 +46,42 @@ public class Day15Part2 {
 	private void arrangeLenses() {
 		String label;
 		int focalLen;
-		Pair<Lens, Integer> record;
 		for (String line : lines) {
 			switch (line.charAt(line.length() - 1)) {
 				case '-':
 					label = line.substring(0, line.length() - 1);
-					record = lenses.get(label);
-					if (record != null) {
-						boxes.get(record.value).remove(record.key);
-						lenses.remove(label);
-					}
+					deleteLens(label);
 					break;
 				default:
 					label = line.substring(0, line.length() - 2);
 					focalLen = line.charAt(line.length() - 1) - '0';
-					record = lenses.get(label);
-					if (record == null) {
-						int boxIndex = getHash(
-								label.toCharArray());
-						Lens lens = new Lens(label, focalLen);
-						boxes.get(boxIndex).add(lens);
-						lenses.put(label, new Pair<>(lens, boxIndex));
-
-					} else {
-						record.key.focalLen = focalLen;
-					}
+					addLens(label, focalLen);
 					break;
 			}
 		}
 
+	}
+
+	private void deleteLens(String label) {
+		Pair<Lens, Integer> record = lenses.get(label);
+		if (record != null) {
+			boxes.get(record.value).remove(record.key);
+			lenses.remove(label);
+		}
+	}
+
+	private void addLens(String label, int focalLen) {
+		Pair<Lens, Integer> record = lenses.get(label);
+		if (record == null) {
+			int boxIndex = getHash(
+					label.toCharArray());
+			Lens lens = new Lens(label, focalLen);
+			boxes.get(boxIndex).add(lens);
+			lenses.put(label, new Pair<>(lens, boxIndex));
+
+		} else {
+			record.key.focalLen = focalLen;
+		}
 	}
 
 	private int getHash(char[] line) {
