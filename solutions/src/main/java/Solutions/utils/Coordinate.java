@@ -35,6 +35,12 @@ public class Coordinate {
 		return this.x + " " + this.y;
 	}
 
+	public Coordinate set(int x, int y) {
+		this.x = x;
+		this.y = y;
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Coordinate) {

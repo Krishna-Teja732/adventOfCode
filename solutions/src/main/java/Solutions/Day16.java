@@ -3,7 +3,6 @@ package Solutions;
 import java.util.List;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Arrays;
 
 import Solutions.utils.Coordinate;
 import Solutions.utils.Pair;
@@ -29,6 +28,39 @@ public class Day16 {
 
 	public double getResult() {
 		dfs(new Coordinate(0, 0), Direction.EAST);
+		return countVisited();
+	}
+
+	public double getPart2Result() {
+		double result = 0;
+		Coordinate init = new Coordinate(0, 0);
+
+		for (int r = 0; r < MAX_X; r++) {
+			beams.clear();
+			visited = new char[MAX_X][MAX_Y];
+			dfs(init.set(r, 0), Direction.EAST);
+			result = Math.max(result, countVisited());
+			beams.clear();
+			visited = new char[MAX_X][MAX_Y];
+			dfs(init.set(r, MAX_Y - 1), Direction.WEST);
+			result = Math.max(result, countVisited());
+		}
+
+		for (int c = 0; c < MAX_Y; c++) {
+			beams.clear();
+			visited = new char[MAX_X][MAX_Y];
+			dfs(init.set(0, c), Direction.SOUTH);
+			result = Math.max(result, countVisited());
+			beams.clear();
+			visited = new char[MAX_X][MAX_Y];
+			dfs(init.set(MAX_X - 1, c), Direction.NORTH);
+			result = Math.max(result, countVisited());
+		}
+
+		return result;
+	}
+
+	private double countVisited() {
 		double result = 0;
 		for (char[] row : visited) {
 			for (char ch : row) {
@@ -47,11 +79,10 @@ public class Day16 {
 				return;
 			}
 			if (getValue(c) == '-' || getValue(c) == '|') {
-				Pair<Coordinate, Direction> beam = new Pair<>(c, neighbor.value);
-				if (beams.contains(beam)) {
+				if (beams.contains(neighbor)) {
 					continue;
 				}
-				beams.add(beam);
+				beams.add(neighbor);
 			}
 			dfs(neighbor.key, neighbor.value);
 		}
