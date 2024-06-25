@@ -46,7 +46,6 @@ public class Day13 {
 			} else if ((rows = getRowsAboveMirror(record.value)) != -1) {
 				result = result + rows;
 			}
-			System.out.println(rows);
 		}
 		return result;
 	}
