@@ -46,6 +46,7 @@ public class Day13 {
 			} else if ((rows = getRowsAboveMirror(record.value)) != -1) {
 				result = result + rows;
 			}
+			System.out.println(rows);
 		}
 		return result;
 	}
@@ -62,13 +63,23 @@ public class Day13 {
 	}
 
 	public boolean mirrorExists(List<String> grid, int startInd, int endInd) {
+		double diff = 0;
 		while (startInd > -1 && endInd < grid.size()) {
-			if (!grid.get(startInd).equals(grid.get(endInd))) {
-				return false;
-			}
+			diff += countDifferentChars(grid.get(startInd).toCharArray(),
+					grid.get(endInd).toCharArray());
 			startInd--;
 			endInd++;
 		}
-		return true;
+		return diff == 1;
+	}
+
+	public double countDifferentChars(char[] s1, char[] s2) {
+		double count = 0;
+		for (int ind = 0; ind < s1.length; ind++) {
+			if (s1[ind] != s2[ind]) {
+				count++;
+			}
+		}
+		return count;
 	}
 }
