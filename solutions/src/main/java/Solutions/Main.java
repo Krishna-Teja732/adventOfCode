@@ -8,7 +8,7 @@ import java.util.List;
 
 class Main {
 	public static void main(String[] args) throws IOException {
-		List<String> inputs = new ReadFileHelper("inputs/day19.txt").getAllLines();
-		System.out.println(new BigDecimal(new Day19(inputs).getResult()).toPlainString());
+		List<String> inputs = new ReadFileHelper("inputs/day14example.txt").getAllLines();
+		System.out.println(new BigDecimal(new Day14(inputs).getResult()).toPlainString());
 	}
 }
