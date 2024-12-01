@@ -1,4 +1,4 @@
-package Solutions;
+package Solutions.aoc23;
 
 import java.util.List;
 
