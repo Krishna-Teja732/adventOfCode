@@ -31,13 +31,13 @@ public enum Direction {
 			}
 			return NORTH;
 		}
-		if (vector.x == 1) {
+		if (vector.x > 0) {
 			if (vector.y > 0) {
 				return SOUTH_EAST;
 			}
 			return SOUTH_WEST;
 		}
-		if (vector.x == -1) {
+		if (vector.x < 0) {
 			if (vector.y > 0) {
 				return NORTH_EAST;
 			}
