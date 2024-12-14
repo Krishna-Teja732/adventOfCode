@@ -2,8 +2,6 @@ package Solutions.aoc24;
 
 import java.util.List;
 
-import javax.sound.sampled.Line;
-
 import java.util.ArrayList;
 
 import Solutions.utils.FormatInputHelper;
@@ -62,34 +60,14 @@ public class Day13 {
 	}
 
 	public long getResultPart2() {
-		long result = 0;
 		final long OFFSET = 10_000_000_000_000L;
-
-		for (Pair<Line, Line> eqs : linearEquations) {
+		for (int index = 0; index < linearEquations.size(); index++) {
+			Pair<Line, Line> eqs = linearEquations.get(index);
 			Line l1 = new Line(eqs.key.a, eqs.key.b, eqs.key.c + OFFSET);
 			Line l2 = new Line(eqs.value.a, eqs.value.b, eqs.value.c + OFFSET);
-
-			long numerator = ((l1.c * l2.b) - (l2.a * l2.c));
-			long denominator = ((l1.a * l2.b) - (l2.a * l1.b));
-			// Equationcannot be solved
-			if (numerator % denominator != 0) {
-				continue;
-			}
-			long countA_ButtonPress = numerator / denominator;
-
-			long countB_ButtonPress = (l2.c - countA_ButtonPress * l1.b);
-			if (countB_ButtonPress % l2.b != 0) {
-				continue;
-			}
-			countB_ButtonPress = countB_ButtonPress / l2.b;
-
-			if (countA_ButtonPress < 0 || countB_ButtonPress < 0) {
-				continue;
-			}
-			result = result + 3 * countA_ButtonPress + countB_ButtonPress;
+			linearEquations.set(index, new Pair<>(l1, l2));
 		}
-
-		return result;
+		return getResult();
 	}
 
 	record Line(Long a, Long b, Long c) {
