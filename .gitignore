@@ -10,4 +10,4 @@ bin
 .classpath
 
 # Ignore puzzle inputs
-inputs/*
+**/solutions/src/main/resources/inputs
