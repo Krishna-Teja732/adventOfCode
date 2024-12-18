@@ -8,3 +8,6 @@ bin
 .settings
 .project
 .classpath
+
+# Ignore puzzle inputs
+inputs/*
