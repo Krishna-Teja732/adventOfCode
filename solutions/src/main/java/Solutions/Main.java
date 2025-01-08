@@ -9,7 +9,7 @@ import java.util.List;
 
 class Main {
 	public static void main(String[] args) throws IOException {
-		List<String> inputs = new ReadFileHelper("inputs/2024/day14.txt").getAllLines();
-		System.out.println(new BigDecimal(new Day14(inputs).getResult()).toPlainString());
+		List<String> inputs = new ReadFileHelper("inputs/2024/day15.txt").getAllLines();
+		System.out.println(new BigDecimal(new Day15(inputs).getResult()).toPlainString());
 	}
 }
